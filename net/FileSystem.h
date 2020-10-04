@@ -165,7 +165,7 @@ std::vector<char> fileSystemRepresentation(const String&);
 inline bool isHandleValid(const PlatformFileHandle& handle) { return handle != invalidPlatformFileHandle; }
 
 inline double invalidFileTime() { return std::numeric_limits<double>::quiet_NaN(); }
-inline bool isValidFileTime(double time) { return std::isfinite(time); }
+inline bool isValidFileTime(double time) { return time == time && time != std::numeric_limits<double>::infinity() && time != -std::numeric_limits<double>::infinity(); /*std::isfinite(time);*/ }
 
 // Prefix is what the filename should be prefixed with, not the full path.
 String openTemporaryFile(const String& prefix, PlatformFileHandle&);
