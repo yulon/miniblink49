@@ -124,10 +124,13 @@ static void dropFilesToWebDragData(std::vector<blink::WebDragData::Item>* itemLi
 
     for (int i = 0; i < count; i++) {
         ::DragQueryFile(hDrop, i, filenames.data(), MAX_PATH * sizeof(WCHAR));
-       
+
         blink::WebDragData::Item item;
-        item.storageType = blink::WebDragData::Item::StorageTypeFilename;
-        item.filenameData = blink::WebString(filenames.data(), wcslen(filenames.data()));
+        item.storageType = blink::WebDragData::Item::StorageTypeFileSystemFile;
+        item.fileSystemURL = blink::KURL(
+            blink::ParsedURLString,
+            String((std::wstring(L"file:///") + filenames.data()).c_str())
+        );
         itemList->push_back(item);
     }
 }
